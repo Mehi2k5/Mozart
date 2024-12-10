@@ -1,0 +1,138 @@
+<!-- Your main page should go here -->
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/css/styles.css" type="text/css">
+    <!-- <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous"> -->
+
+    <script src="https://kit.fontawesome.com/efeb3f9255.js" crossorigin="anonymous"></script>
+    <title>MOZ-ART</title>
+</head>
+
+<body>
+
+    <div id="nav">
+        <div class="title">
+            <h1> MOZ-ART</h1>
+            <!-- <h3> AI-Generated Album Art</h3> -->
+        </div>
+        <div>
+            <!-- search -->
+            <i class="fa-solid fa-magnifying-glass"></i>
+            <input type="text" class="input" placeholder="Search for Artists">
+        </div>
+        <div>
+            <button><i class="fa-solid fa-user-plus"></i></button>
+            <button><a href="/new"><i class="fa-solid fa-right-to-bracket"></i></a></button>
+        </div>
+    </div>
+    <div id="main">
+        <div id="sidebar">
+            <!-- " action="https://httpbin.org/post"> -->
+            <form method="POST" class="chatForm">
+                <i class="fa-solid fa-image" style="padding: 10px;"></i>
+                <input type="text" name="chatInput" class="input" id="chatInput" placeholder="Request AI Album Art">
+                <button type="submit" id="chatSubmit"><i class="fa-solid fa-paper-plane"></i></button>
+            </form>
+            <script>
+                let chatForm = document.querySelector(".chatForm")
+                // chatForm.addEventListener()
+                chatForm.onsubmit = function () {
+                    event.preventDefault()
+                    let chatInput = document.querySelector("#chatInput")
+                    let chatInputValue = chatInput.value 
+                    let chatInputData = {
+                        prompt: `AI album art of: ${chatInputValue}`,
+                        // model: 'dalle-3'
+                    }
+                    console.log(chatInputData)
+
+                    fetch('https://api.openai.com/v1/images/generations', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                            'Authorization': 'Bearer OPENAI-TOKEN-HERE' // DO NOT PUSH THIS!!!!
+                        },
+                        body: JSON.stringify(chatInputData)
+                    })
+                        .then(response => response.json())
+                        .then(
+                            data => {
+                                console.log(data.data[0].url)
+                                let generatedImg = document.createElement("img")
+                                generatedImg.className = "generatedImg"
+                                generatedImg.src = data.data[0].url
+                                let sidebar = document.querySelector("#sidebar")
+                                sidebar.appendChild(generatedImg)
+                            }
+
+                        )
+                        .catch(error => console.error(error));
+
+                    // reset form 
+                    chatInput.value = ""
+                }
+            </script>
+        </div>
+        <div id="homepage">
+
+        </div>
+
+    </div>
+
+    <!-- <div id="ghostwriter" class="card-div">
+    <img width="500px" src="https://upload.wikimedia.org/wikipedia/en/f/ff/Heart_on_My_Sleeve_ghostwriter977.jpg"> 
+        ghostwriter
+    <div>
+        <audio controls autoplay> 
+            <source src="https://ia801606.us.archive.org/30/items/ghostwriter-heart-on-my-sleeve-ai-xenen-mix-master-1080p-mux/ghostwriter%20heart%20on%20my%20sleeve%20AI%20XENEN%20Mix%20Master_1080p_MUX.mp4" type="audio/mpeg">
+        </audio>  
+    </div>
+</div>
+<div id="ghostpainter" class="card-div">
+    <img width="500px" src="https://upload.wikimedia.org/wikipedia/en/f/ff/Heart_on_My_Sleeve_ghostwriter977.jpg"> 
+        ghostpainter
+    <div>
+        <audio controls autoplay> 
+            <source src="https://ia801606.us.archive.org/30/items/ghostwriter-heart-on-my-sleeve-ai-xenen-mix-master-1080p-mux/ghostwriter%20heart%20on%20my%20sleeve%20AI%20XENEN%20Mix%20Master_1080p_MUX.mp4" type="audio/mpeg">
+        </audio>  
+    </div>
+</div> -->
+    <!-- <script>
+    console.log("hello")
+</script> -->
+    <script src="/js/artists.js"></script>
+    <script src="/js/songs.js"></script>
+
+    <script src="/js/app.js"></script>
+
+
+    <!-- <video width="500px" controls autoplay> 
+        <source src="https://ia801606.us.archive.org/30/items/ghostwriter-heart-on-my-sleeve-ai-xenen-mix-master-1080p-mux/ghostwriter%20heart%20on%20my%20sleeve%20AI%20XENEN%20Mix%20Master_1080p_MUX.mp4" type="audio/mpeg">
+    </video>   -->
+
+    <!-- <h1>Making Sushi</h1>
+    <ol>
+        <li>Prepare the rice</li>
+        <li>Prepare the ingredients</li>
+        <li>Roll the sushi</li>
+        <li>Cut the sushi</li>
+        <li>Enjoy!</li>
+    </ol>
+    <h3>History of Sushi</h3>
+    <p>Sushi is a Japanese dish of prepared vinegared rice, usually with some sugar and salt, accompanying a variety of ingredients, such as seafood, vegetables, and occasionally tropical fruits. Styles of sushi and its presentation vary widely, but the one key ingredient is "sushi rice", also referred to as shari, or sumeshi.</p>
+    <img width="200px" src="https://images.unsplash.com/photo-1716484425598-39cc34925888?q=80&w=1935&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D">
+
+
+    <div>
+        <iframe width="560" height="315" src="https://www.youtube.com/embed/HfaIcB4Ogxk?si=GWlJwVbPR-twWMBN" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+    </div>
+    <div>
+        <iframe width="560" height="315" src="https://www.youtube.com/embed/nIoOv6lWYnk?si=H0uU4od-VU6FUUNb" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+    </div> -->
+</body>
+
+</html>
